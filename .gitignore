@@ -1,3 +1,23 @@
-*.txt
+#Python
 backend/README.md
-backend/instance/*  
+backend/instance/
+backend/__pycache__/
+*.pyc
+
+# Docker volumes and build artifacts
+pgdata/
+*.db
+
+# Flask/instance data
+instance/
+
+# Secrets (if any)
+.env
+.env.*
+
+# VSCode, OS, etc
+.vscode/
+.DS_Store
+
+#Readme files
+*.txt
