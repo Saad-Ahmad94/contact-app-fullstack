@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: contacts_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      - FLASK_ENV=production
+      - DATABASE_URL=postgresql://user:password@db:5432/contacts_db
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80" # Map host 3000 → Nginx 80
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_URL=http://backend:5000 # Points to Flask service
+
+volumes:
+  postgres_data:
